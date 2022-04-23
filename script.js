@@ -11,8 +11,8 @@ function makeTimeBlocks(hour, existingTodo = "") {
     $(`<div class="row time-block">
     <div class="hour col-1">${hour}:00</div>
     <textarea name="" id="" cols="30" rows="3" class="description col-9 ${ppof}">${existingTodo}</textarea>
-    <div class="btn saveBtn col-2"></div>
-  </div><div><pre id="msg"></pre></div>`)
+    <button class="btn saveBtn col-2" data-hour="${hour}"></button>
+  </div><div><pre id="msg_${hour}"></pre></div>`)
   );
 }
 
@@ -23,23 +23,29 @@ for (var i = 9; i < 18; i++){
 let schedules = [];
 
 const addSchedule = (ev)=>{
+    console.log("CLICKED",ev.target.getAttribute('data-hour'))
     ev.preventDefault();
     let schedule = {
-        id: document.getElementsByClassName(".hour").value,
-        key: document.getElementsByClassName(".description").value
+        id: document.getElementsByClassName("hour").value,
+        key: document.getElementsByClassName("description").value
     }
     schedules.push(schedule);
     document.querySelector('form').reset();
 
     console.warn('added', {schedules});
-    let pre = document.getElementById('#msg.pre');
+    let pre = document.getElementById('msg_hour');
     pre.textContent = '\n' + JSON.stringify(schedules, '\t', 2);
 
         localStorage.setItem('scheduleTodos', JSON.stringify(schedule) )
 }
     document.addEventListener('DOMContentLoaded', ()=>{
         //I am not sure what is going on here but there seems to be an issue with understanding what the event listener means
-        document.getElementsByClassName(".btn").addEventListener('click', addSchedule);
+        var allBtns = document.getElementsByClassName("btn");
+
+        for(var i = 0; i< allBtns.length; i ++ ){
+            var btn = allBtns[i];
+            btn.addEventListener('click', addSchedule);
+        }
     });
 
 
