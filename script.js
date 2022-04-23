@@ -38,6 +38,7 @@ const addSchedule = (ev)=>{
         localStorage.setItem('scheduleTodos', JSON.stringify(schedule) )
 }
     document.addEventListener('DOMContentLoaded', ()=>{
+        //I am not sure what is going on here but there seems to be an issue with understanding what the event listener means
         document.getElementsByClassName(".btn").addEventListener('click', addSchedule);
     });
 
